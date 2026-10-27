@@ -1,0 +1,7 @@
+PLAN.md
+package-lock.json
+.next/
+node_modules/
+playwright-report/
+test-results/
+next-env.d.ts
