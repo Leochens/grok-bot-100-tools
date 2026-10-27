@@ -16,11 +16,13 @@ import {
   CalendarDays,
   MoveUpRight,
 } from "lucide-react";
-import { tools, roadmap, formatDay, type ToolEntry } from "@/data/tools";
+import { tools, roadmap, formatDay, localizeTool } from "@/data/tools";
 import { SiteHeader, Footer } from "./Brand";
 import { OriginalPostModal } from "./OriginalPostModal";
+import { useLanguage } from "./LanguageProvider";
 
 export function Directory() {
+  const { language, t } = useLanguage();
   const searchRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
@@ -44,27 +46,39 @@ export function Directory() {
   const [audience, setAudience] = useState("");
   const [upcoming, setUpcoming] = useState(true);
   const [expanded, setExpanded] = useState(false);
-  const [selected, setSelected] = useState<ToolEntry | null>(null);
-  const slots = roadmap.filter((slot) => {
-    if (tier !== "all" && tier !== slot.tier) return false;
-    if (!slot.tool)
-      return upcoming && source === "all" && !search.trim() && !audience.trim();
-    return (
-      (source === "all" || source === slot.tool.sourcePlatform) &&
-      slot.tool.nicheAudience
-        .toLowerCase()
-        .includes(audience.trim().toLowerCase()) &&
-      [
-        slot.tool.title,
-        slot.tool.painPoint,
-        slot.tool.nicheAudience,
-        slot.tool.originalComplaint,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(search.trim().toLowerCase())
-    );
-  });
+  const [selected, setSelected] = useState<number | null>(null);
+  const slots = roadmap
+    .filter((slot) => {
+      if (tier !== "all" && tier !== slot.tier) return false;
+      if (!slot.tool)
+        return (
+          upcoming && source === "all" && !search.trim() && !audience.trim()
+        );
+      const copies = [slot.tool, slot.tool.zh];
+      return (
+        (source === "all" || source === slot.tool.sourcePlatform) &&
+        copies
+          .map((copy) => copy.nicheAudience)
+          .join(" ")
+          .toLowerCase()
+          .includes(audience.trim().toLowerCase()) &&
+        copies
+          .flatMap((copy) => [
+            copy.title,
+            copy.painPoint,
+            copy.summary,
+            copy.nicheAudience,
+            copy.originalComplaint,
+          ])
+          .join(" ")
+          .toLowerCase()
+          .includes(search.trim().toLowerCase())
+      );
+    })
+    .map((slot) => ({
+      ...slot,
+      tool: slot.tool ? localizeTool(slot.tool, language) : undefined,
+    }));
   const preview = slots.slice(0, 5);
   const nextWeekly = slots.find(
     (slot) => slot.tier === "weekly" && slot.status === "upcoming",
@@ -84,70 +98,95 @@ export function Directory() {
         <section className="hero">
           <div className="hero-main">
             <span className="eyebrow">
-              <span className="status-dot" /> THE INTERNET HAS ENOUGH BIG APPS.
+              <span className="status-dot" />{" "}
+              {t(
+                "THE INTERNET HAS ENOUGH BIG APPS.",
+                "大而全的应用已经够多了。",
+              )}
             </span>
             <h1>
-              Small tools.
+              {t("Small tools.", "工具小一点。")}
               <br />
-              <em>Specific problems.</em>
+              <em>{t("Specific problems.", "问题具体一点。")}</em>
               <span className="hero-star">✳</span>
             </h1>
             <p>
-              One real frustration. One thoughtfully small solution.
+              {t(
+                "One real frustration. One thoughtfully small solution.",
+                "一个真实的烦恼，一个刚刚好的解法。",
+              )}
               <br />
-              100 local-first tools, built in public over 100 days.
+              {t(
+                "100 local-first tools, built in public over 100 days.",
+                "用 100 天，公开做出 100 个在本地运行的小工具。",
+              )}
             </p>
             <a href="#directory" className="hero-link">
-              Find your small fix <ArrowDown size={16} />
+              {t("Find your small fix", "找个顺手的小工具")}{" "}
+              <ArrowDown size={16} />
             </a>
           </div>
           <aside className="manifesto">
             <span className="mono">
-              A LITTLE LESS SOFTWARE.
-              <br />A LITTLE MORE USEFUL.
+              {t("A LITTLE LESS SOFTWARE.", "少一点软件负担，")}
+              <br />
+              {t("A LITTLE MORE USEFUL.", "多一点实际用处。")}
             </span>
             <div className="manifesto-number">
               100
               <span>
-                tools.
+                {t("tools.", "个工具，")}
                 <br />
-                zero noise.
+                {t("zero noise.", "不添乱。")}
               </span>
             </div>
             <div className="manifesto-row">
               <ShieldCheck size={17} />
-              <span>Your data stays on your device</span>
+              <span>
+                {t("Your data stays on your device", "数据留在自己的设备上")}
+              </span>
             </div>
             <div className="manifesto-row">
               <Globe2 size={17} />
-              <span>No accounts. No API keys.</span>
+              <span>
+                {t("No accounts. No API keys.", "不用注册，不用 API 密钥")}
+              </span>
             </div>
             <div className="manifesto-row">
               <Zap size={17} />
-              <span>Open it. Use it. Get on with it.</span>
+              <span>
+                {t("Open it. Use it. Get on with it.", "打开就用，用完接着忙")}
+              </span>
             </div>
           </aside>
         </section>
-        <section className="progress-panel" aria-label="100-day progress">
+        <section
+          className="progress-panel"
+          aria-label={t("100-day progress", "100 天造物进度")}
+        >
           <div className="progress-heading">
             <div>
-              <span className="eyebrow">THE 100-DAY FIELDWORK</span>
+              <span className="eyebrow">
+                {t("THE 100-DAY FIELDWORK", "100 天造物记录")}
+              </span>
               <h2>
-                Day {built}
-                <span> / 100 Built</span>
+                {t(`Day ${built}`, `已完成 ${built}`)}
+                <span>{t(" / 100 Built", " / 100 个工具")}</span>
                 <span className="live-badge">
-                  <span className="status-dot" /> IN PROGRESS
+                  <span className="status-dot" /> {t("IN PROGRESS", "进行中")}
                 </span>
               </h2>
             </div>
             <div className="schedule">
               <span>
-                <Clock3 size={14} /> DAILY 03:00 AM{" "}
-                <span className="muted">ASIA/SHANGHAI</span>
+                <Clock3 size={14} /> {t("DAILY 03:00 AM", "每日凌晨 03:00")}{" "}
+                <span className="muted">{t("ASIA/SHANGHAI", "上海时间")}</span>
               </span>
               <span>
-                <CalendarDays size={14} /> EVERY 7TH DAY{" "}
-                <span className="muted">WEEKLY MEDIUM-SCALE TOOL</span>
+                <CalendarDays size={14} /> {t("EVERY 7TH DAY", "每逢第 7 天")}{" "}
+                <span className="muted">
+                  {t("WEEKLY MEDIUM-SCALE TOOL", "每周中型工具")}
+                </span>
               </span>
             </div>
           </div>
@@ -155,11 +194,17 @@ export function Directory() {
             {roadmap.map((slot) => (
               <button
                 key={slot.day}
-                aria-label={`Day ${formatDay(slot.day)}: ${slot.status}, ${slot.tier === "weekly" ? "weekly medium-scale" : "daily"}`}
-                title={`Day ${formatDay(slot.day)} · ${slot.status} · ${slot.tier}`}
+                aria-label={t(
+                  `Day ${formatDay(slot.day)}: ${slot.status}, ${slot.tier === "weekly" ? "weekly medium-scale" : "daily"}`,
+                  `第 ${formatDay(slot.day)} 天：${slot.status === "built" ? "已上线" : "待构建"}，${slot.tier === "weekly" ? "每周中型工具" : "每日微工具"}`,
+                )}
+                title={t(
+                  `Day ${formatDay(slot.day)} · ${slot.status} · ${slot.tier}`,
+                  `第 ${formatDay(slot.day)} 天 · ${slot.status === "built" ? "已上线" : "待构建"} · ${slot.tier === "weekly" ? "每周中型工具" : "每日微工具"}`,
+                )}
                 className={`progress-slot ${slot.status} ${slot.tier}`}
                 onClick={() => {
-                  if (slot.tool) setSelected(slot.tool);
+                  if (slot.tool) setSelected(slot.day);
                   else {
                     setUpcoming(true);
                     setExpanded(true);
@@ -182,60 +227,74 @@ export function Directory() {
           </div>
           <div className="progress-legend mono">
             <span>
-              <i className="legend-dot built" /> BUILT{" "}
-              <i className="legend-dot" /> UPCOMING{" "}
-              <i className="legend-dot weekly" /> WEEKLY MEDIUM
+              <i className="legend-dot built" /> {t("BUILT", "已上线")}{" "}
+              <i className="legend-dot" /> {t("UPCOMING", "待构建")}{" "}
+              <i className="legend-dot weekly" />{" "}
+              {t("WEEKLY MEDIUM", "每周中型工具")}
             </span>
             <span>
-              {100 - built} GOOD PROBLEMS TO GO <ArrowUpRight size={13} />
+              {t(
+                `${100 - built} GOOD PROBLEMS TO GO`,
+                `还有 ${100 - built} 个问题等着解决`,
+              )}{" "}
+              <ArrowUpRight size={13} />
             </span>
           </div>
         </section>
         <section id="directory" className="directory-section">
           <div className="section-heading">
             <h2>
-              The tool directory<span>({String(built).padStart(2, "0")})</span>
+              {t("The tool directory", "工具目录")}
+              <span>({String(built).padStart(2, "0")})</span>
             </h2>
-            <span className="mono">REAL PEOPLE. REAL PAIN POINTS.</span>
+            <span className="mono">
+              {t("REAL PEOPLE. REAL PAIN POINTS.", "真人遇到的，真问题。")}
+            </span>
           </div>
           <div className="filter-panel">
             <div className="search-input">
               <Search size={18} />
               <input
                 ref={searchRef}
-                aria-label="Search tools"
+                aria-label={t("Search tools", "搜索工具")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="A tool for that one thing…"
+                placeholder={t(
+                  "A tool for that one thing…",
+                  "你想解决什么小麻烦？",
+                )}
               />
               <kbd>/</kbd>
             </div>
             <div className="filter-select">
               <SlidersHorizontal size={15} />
               <select
-                aria-label="Filter by source"
+                aria-label={t("Filter by source", "按来源筛选")}
                 value={source}
                 onChange={(e) => setSource(e.target.value)}
               >
-                <option value="all">All sources</option>
-                <option value="X">X</option>
-                <option value="Reddit">Reddit</option>
+                <option value="all">{t("All sources", "全部来源")}</option>
+                <option value="X">{t("X", "来源：X")}</option>
+                <option value="Reddit">{t("Reddit", "来源：Reddit")}</option>
               </select>
             </div>
             <input
               className="audience-input"
-              aria-label="Filter by niche audience"
-              placeholder="Niche audience…"
+              aria-label={t("Filter by niche audience", "按使用人群筛选")}
+              placeholder={t("Niche audience…", "谁会用到？")}
               value={audience}
               onChange={(e) => setAudience(e.target.value)}
             />
           </div>
           <div className="filter-bottom">
-            <div className="tier-tabs" aria-label="Filter by tier">
+            <div
+              className="tier-tabs"
+              aria-label={t("Filter by tier", "按工具规模筛选")}
+            >
               {[
-                ["all", "All tools"],
-                ["daily", "Daily Micro-Tool"],
-                ["weekly", "Weekly Medium-Scale Tool"],
+                ["all", t("All tools", "全部")],
+                ["daily", t("Daily Micro-Tool", "每日微工具")],
+                ["weekly", t("Weekly Medium-Scale Tool", "每周中型工具")],
               ].map(([value, label]) => (
                 <button
                   key={value}
@@ -255,7 +314,7 @@ export function Directory() {
                 onChange={(e) => setUpcoming(e.target.checked)}
               />
               <span className="toggle" />
-              Show upcoming slots
+              {t("Show upcoming slots", "显示 100 天路线图")}
             </label>
           </div>
           <div className="tool-grid">
@@ -265,23 +324,30 @@ export function Directory() {
                   key={slot.day}
                   className="tool-card built-card"
                   id={`slot-${slot.day}`}
-                  onClick={() => setSelected(slot.tool!)}
+                  onClick={() => setSelected(slot.day)}
                 >
                   <div className="card-top">
                     <span className="mono">
-                      DAY {formatDay(slot.day)}{" "}
-                      <span className="card-divider">/</span>{" "}
-                      <span className="green-text">BUILT & READY</span>
+                      {t("DAY", "第")} {formatDay(slot.day)}
+                      {t("", " 天")} <span className="card-divider">/</span>{" "}
+                      <span className="green-text">
+                        {t("BUILT & READY", "已上线，随时可用")}
+                      </span>
                     </span>
-                    <span className="badge daily">
-                      <Zap size={11} /> Daily
+                    <span className={`badge ${slot.tier}`}>
+                      <Zap size={11} />{" "}
+                      {slot.tier === "daily"
+                        ? t("Daily", "每日微工具")
+                        : t("Weekly Medium", "每周中型工具")}
                     </span>
                   </div>
                   <div className="tool-card-content">
                     <div className="tool-icon">
                       <Command size={25} />
                     </div>
-                    <span className="eyebrow">WHAT WAS BUILT</span>
+                    <span className="eyebrow">
+                      {t("WHAT WAS BUILT", "做了什么")}
+                    </span>
                     <h3>
                       {slot.tool.title}
                       <MoveUpRight size={25} />
@@ -296,24 +362,47 @@ export function Directory() {
                         <span className="mini-error">24.2 CPS</span>
                       </div>
                       <p>
-                        Some subtitles move a little too fast.
+                        {t(
+                          "Some subtitles move a little too fast.",
+                          "有些字幕，闪得太快。",
+                        )}
                         <br />
-                        <span>Let’s give every word room to breathe.</span>
+                        <span>
+                          {t(
+                            "Let’s give every word room to breathe.",
+                            "让每个字，都来得及看清。",
+                          )}
+                        </span>
                       </p>
                       <div className="mini-meter">
                         <i />
                       </div>
                       <span className="mini-label">
-                        SPOT THE RED. FIND THE BALANCE.
+                        {t(
+                          "SPOT THE RED. FIND THE BALANCE.",
+                          "找出红色警告，让字幕更好读。",
+                        )}
                       </span>
                     </div>
                     <div className="card-source">
-                      <span className="badge reddit">r/</span>
+                      <span
+                        className={`badge ${slot.tool.sourcePlatform.toLowerCase()}`}
+                      >
+                        {slot.tool.sourcePlatform}
+                      </span>
                       <span>
                         {slot.tool.sourceAuthor}
-                        <small>{slot.tool.sourceDate} · SOURCE</small>
+                        <small>
+                          {slot.tool.sourceDate} · {t("SOURCE", "来源")}
+                        </small>
                       </span>
                     </div>
+                    <span className="eyebrow complaint-label">
+                      {t(
+                        "USER’S ORIGINAL COMPLAINT / WISH",
+                        "用户当时的烦恼 / 愿望",
+                      )}
+                    </span>
                     <blockquote>
                       <span className="quote-mark">“</span>
                       <span>{slot.tool.originalComplaint}</span>
@@ -324,17 +413,21 @@ export function Directory() {
                       className="inspect-link"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelected(slot.tool!);
+                        setSelected(slot.day);
                       }}
                     >
-                      Inspect Original Post & Analysis <Plus size={14} />
+                      {t(
+                        "Inspect Original Post & Analysis",
+                        "查看原帖与需求分析",
+                      )}{" "}
+                      <Plus size={14} />
                     </button>
                     <Link
                       className="button primary"
                       href={`/tools/${slot.tool.slug}`}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      Open Tool <ArrowRight size={16} />
+                      {t("Open Tool", "打开工具")} <ArrowRight size={16} />
                     </Link>
                   </div>
                 </article>
@@ -345,11 +438,16 @@ export function Directory() {
                   className={`tool-card upcoming-card ${slot.tier === "weekly" ? "weekly-card" : ""}`}
                 >
                   <div className="card-top">
-                    <span className="mono">DAY {formatDay(slot.day)}</span>
+                    <span className="mono">
+                      {t("DAY", "第")} {formatDay(slot.day)}
+                      {t("", " 天")}
+                    </span>
                     <span
                       className={`badge ${slot.tier === "weekly" ? "weekly" : "pending"}`}
                     >
-                      {slot.tier === "weekly" ? "Weekly Medium" : "Daily"}
+                      {slot.tier === "weekly"
+                        ? t("Weekly Medium", "每周中型工具")
+                        : t("Daily", "每日微工具")}
                     </span>
                   </div>
                   <div className="upcoming-art" aria-hidden="true">
@@ -364,26 +462,42 @@ export function Directory() {
                   <div className="upcoming-copy">
                     <span className="eyebrow">
                       {slot.tier === "weekly"
-                        ? "ROOM TO GO A LITTLE DEEPER"
-                        : "A NEW DAY. A NEW NICHE."}
+                        ? t(
+                            "ROOM TO GO A LITTLE DEEPER",
+                            "这次，把问题再挖深一点",
+                          )
+                        : t(
+                            "A NEW DAY. A NEW NICHE.",
+                            "新的一天，帮一群不同的人。",
+                          )}
                     </span>
                     <h3>
                       {slot.tier === "weekly"
-                        ? "A bigger small idea."
-                        : "The next small fix."}
+                        ? t("A bigger small idea.", "小想法，也能多做一点。")
+                        : t("The next small fix.", "下一个小问题，等着解决。")}
                     </h3>
                     <p>
                       {slot.tier === "weekly"
-                        ? "Every seventh day, a more involved workflow gets the same thoughtful treatment."
-                        : "Another real frustration waiting for a focused solution. Audience & source to be discovered."}
+                        ? t(
+                            "Every seventh day, a more involved workflow gets the same thoughtful treatment.",
+                            "每到第七天，留点时间，认真理顺一个更复杂的工作流程。",
+                          )
+                        : t(
+                            "Another real frustration waiting for a focused solution. Audience & source to be discovered.",
+                            "下一个真实的烦恼还在寻找中。先找到需要它的人，再动手做。",
+                          )}
                     </p>
                   </div>
                   <div className="upcoming-footer mono">
-                    <span className="status-dot pending-dot" /> UPCOMING{" "}
+                    <span className="status-dot pending-dot" />{" "}
+                    {t("UPCOMING", "待构建")}{" "}
                     <span>
                       {slot.tier === "weekly"
-                        ? "MEDIUM-SCALE BUILD"
-                        : "RESEARCH → BUILD → SHIP"}
+                        ? t("MEDIUM-SCALE BUILD", "中型工具构建")
+                        : t(
+                            "RESEARCH → BUILD → SHIP",
+                            "找问题 → 做工具 → 上线",
+                          )}
                     </span>
                   </div>
                 </article>
@@ -393,8 +507,15 @@ export function Directory() {
           {slots.length === 0 && (
             <div className="empty-state">
               <Search size={28} />
-              <h3>No tools in this corner. Yet.</h3>
-              <p>Try another audience or source, or include upcoming slots.</p>
+              <h3>
+                {t("No tools in this corner. Yet.", "暂时还没找到合适的工具。")}
+              </h3>
+              <p>
+                {t(
+                  "Try another audience or source, or include upcoming slots.",
+                  "换个人群或来源试试，也可以看看接下来的计划。",
+                )}
+              </p>
               <button
                 className="button"
                 onClick={() => {
@@ -404,7 +525,7 @@ export function Directory() {
                   setAudience("");
                 }}
               >
-                Clear filters
+                {t("Clear filters", "清除筛选")}
               </button>
             </div>
           )}
@@ -414,21 +535,34 @@ export function Directory() {
               onClick={() => setExpanded(!expanded)}
             >
               {expanded
-                ? "Show fewer slots"
-                : `Explore all ${slots.length} matching roadmap slots`}
+                ? t("Show fewer slots", "收起路线图")
+                : t(
+                    `Explore all ${slots.length} matching roadmap slots`,
+                    `展开全部 ${slots.length} 个匹配的路线图位置`,
+                  )}
               <ArrowDown size={16} className={expanded ? "rotate-180" : ""} />
             </button>
           )}
           <div className="directory-note">
             <ShieldCheck size={16} />
-            <p>Useful software doesn’t need your email. Or your data.</p>
-            <span className="mono">LOCAL-FIRST. ALWAYS.</span>
+            <p>
+              {t(
+                "Useful software doesn’t need your email. Or your data.",
+                "好用的工具，不用拿邮箱和数据来换。",
+              )}
+            </p>
+            <span className="mono">
+              {t("LOCAL-FIRST. ALWAYS.", "始终在本地运行。")}
+            </span>
           </div>
         </section>
       </main>
       <Footer />
-      {selected && (
-        <OriginalPostModal tool={selected} onClose={() => setSelected(null)} />
+      {selected !== null && (
+        <OriginalPostModal
+          tool={tools.find((tool) => tool.day === selected)!}
+          onClose={() => setSelected(null)}
+        />
       )}
     </div>
   );

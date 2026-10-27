@@ -27,10 +27,17 @@ import {
   serializeSrt,
   type Cue,
 } from "@/lib/srt";
+import { useLanguage } from "./LanguageProvider";
+import {
+  editorMessage,
+  issueLabel,
+  parseErrorLabel,
+} from "@/lib/subtitle-copy";
 import { ToolShell } from "./ToolShell";
 
 const STORAGE_KEY = "one-hundred:subtitle-cps:v1";
 export function SubtitleEditor() {
+  const { language, t } = useLanguage();
   const [raw, setRaw] = useState("");
   // Keep incomplete inline edits (trailing spaces/newlines) independent of parsing.
   const [inlineCues, setInlineCues] = useState<Cue[] | null>(null);
@@ -265,7 +272,9 @@ export function SubtitleEditor() {
       <div className="tool-workspace">
         <aside className="input-panel">
           <div className="panel-heading">
-            <span className="eyebrow">01 / YOUR SUBTITLES</span>
+            <span className="eyebrow">
+              {t("01 / YOUR SUBTITLES", "01 / 导入字幕")}
+            </span>
             <FileText size={16} />
           </div>
           <div
@@ -278,23 +287,23 @@ export function SubtitleEditor() {
             onDrop={drop}
           >
             <Upload size={23} />
-            <h3>Drop your .srt here</h3>
+            <h3>{t("Drop your .srt here", "把 .srt 文件拖到这里")}</h3>
             <p>
-              or{" "}
+              {t("or", "或")}{" "}
               <button
                 className="text-link"
                 onClick={() => inputRef.current?.click()}
               >
-                browse files
+                {t("browse files", "选择文件")}
               </button>{" "}
-              · up to 5 MB
+              {t("· up to 5 MB", "· 最大 5 MB")}
             </p>
             <input
               ref={inputRef}
               type="file"
               accept=".srt"
               className="sr-only"
-              aria-label="Upload SRT file"
+              aria-label={t("Upload SRT file", "选择 SRT 字幕文件")}
               onChange={(e) => {
                 void loadFile(e.target.files?.[0]);
                 e.target.value = "";
@@ -302,8 +311,11 @@ export function SubtitleEditor() {
             />
           </div>
           <label className="input-label" htmlFor="srt-input">
-            OR PASTE SRT TEXT{" "}
-            <span className="mono">{raw.length.toLocaleString()} CHARS</span>
+            {t("OR PASTE SRT TEXT", "也可以粘贴 SRT 文本")}{" "}
+            <span className="mono">
+              {raw.length.toLocaleString(t("en-US", "zh-CN"))}{" "}
+              {t("CHARS", "字符")}
+            </span>
           </label>
           <textarea
             id="srt-input"
@@ -316,15 +328,18 @@ export function SubtitleEditor() {
               setInlineCues(null);
               setRaw(e.target.value);
             }}
-            placeholder={
-              "1\n00:00:01,000 --> 00:00:04,500\nEvery word deserves a little room."
-            }
+            placeholder={t(
+              "1\n00:00:01,000 --> 00:00:04,500\nEvery word deserves a little room.",
+              "1\n00:00:01,000 --> 00:00:04,500\n让每个字，都来得及看清。",
+            )}
           />
           <div className="panel-heading standard-heading">
-            <span className="eyebrow">02 / YOUR TARGET STANDARD</span>
+            <span className="eyebrow">
+              {t("02 / YOUR TARGET STANDARD", "02 / 设置检查标准")}
+            </span>
           </div>
           <label className="sr-only" htmlFor="standard">
-            Target standard
+            {t("Target standard", "检查标准")}
           </label>
           <div className="preset-select">
             <select
@@ -336,7 +351,14 @@ export function SubtitleEditor() {
             >
               {Object.entries(PRESETS).map(([key, value]) => (
                 <option value={key} key={key}>
-                  {value.name}
+                  {t(
+                    value.name,
+                    key === "netflix"
+                      ? "Netflix · 保守预设"
+                      : key === "bbc"
+                        ? "BBC 风格 · 保守预设"
+                        : "自定义标准",
+                  )}
                 </option>
               ))}
             </select>
@@ -344,10 +366,10 @@ export function SubtitleEditor() {
           </div>
           <div className="standard-values">
             <label>
-              MAX CPS
+              {t("MAX CPS", "阅读速度上限（CPS）")}
               {preset === "custom" ? (
                 <input
-                  aria-label="Custom maximum CPS"
+                  aria-label={t("Custom maximum CPS", "自定义 CPS 上限")}
                   type="number"
                   min="1"
                   max="100"
@@ -357,15 +379,18 @@ export function SubtitleEditor() {
               ) : (
                 <strong>
                   {standard.cps}
-                  <small>chars/sec</small>
+                  <small>{t("chars/sec", "字/秒")}</small>
                 </strong>
               )}
             </label>
             <label>
-              MAX LINE LENGTH
+              {t("MAX LINE LENGTH", "单行字数上限（CPL）")}
               {preset === "custom" ? (
                 <input
-                  aria-label="Custom maximum line length"
+                  aria-label={t(
+                    "Custom maximum line length",
+                    "自定义单行字数上限",
+                  )}
                   type="number"
                   min="1"
                   max="200"
@@ -375,23 +400,26 @@ export function SubtitleEditor() {
               ) : (
                 <strong>
                   {standard.cpl}
-                  <small>chars/line</small>
+                  <small>{t("chars/line", "字/行")}</small>
                 </strong>
               )}
             </label>
           </div>
           <p className="standard-note">
-            Conservative workflow presets, not delivery certification. Netflix
-            English permits 20 CPS for adults, 17 for children; BBC uses WPM
-            guidance. Always check your brief.
+            {t(
+              "Conservative workflow presets, not delivery certification. Netflix English permits 20 CPS for adults, 17 for children; BBC uses WPM guidance. Always check your brief.",
+              "这些预设偏保守，只方便日常检查，不代表符合交付规范。Netflix 英语字幕允许成人内容 20 CPS、儿童内容 17 CPS；BBC 则参考每分钟词数。请以你的项目要求为准。",
+            )}
           </p>
           <details className="counting-note">
-            <summary>How are characters counted?</summary>
+            <summary>
+              {t("How are characters counted?", "字符是怎么算的？")}
+            </summary>
             <p>
-              Unicode code points, including spaces and punctuation. Line breaks
-              count as one space for CPS. HTML and ASS styling tags are
-              excluded. A maximum of two lines is checked. Auto-wrap preserves
-              words; shorten or retime any cue that still exceeds your limits.
+              {t(
+                "Unicode code points, including spaces and punctuation. Line breaks count as one space for CPS. HTML and ASS styling tags are excluded. A maximum of two lines is checked. Auto-wrap preserves words; shorten or retime any cue that still exceeds your limits.",
+                "按 Unicode 码点计数，空格和标点也算。计算 CPS 时，换行按一个空格计；HTML 和 ASS 样式标签不计入。每条字幕最多两行。智能断行会保留完整单词；仍然超标的字幕，需要精简文字或调整时间。",
+              )}
             </p>
             <a
               className="text-link"
@@ -399,42 +427,49 @@ export function SubtitleEditor() {
               target="_blank"
               rel="noreferrer"
             >
-              Netflix style reference ↗
+              {t("Netflix style reference ↗", "查看 Netflix 字幕规范 ↗")}
             </a>
           </details>
           <div className="privacy-note">
             <LockKeyhole size={15} />
             <span>
-              Your subtitles never leave this browser.
-              <small>{storageStatus}</small>
+              {t(
+                "Your subtitles never leave this browser.",
+                "字幕只留在这个浏览器里。",
+              )}
+              <small>{editorMessage(storageStatus, language)}</small>
             </span>
           </div>
         </aside>
         <section
           className="results-panel"
-          aria-label="Subtitle inspection results"
+          aria-label={t("Subtitle inspection results", "字幕检查结果")}
         >
           <div className="results-heading">
             <div>
-              <span className="eyebrow">03 / INSPECT & REBALANCE</span>
-              <h2>A little breathing room.</h2>
+              <span className="eyebrow">
+                {t("03 / INSPECT & REBALANCE", "03 / 检查与调整")}
+              </span>
+              <h2>{t("A little breathing room.", "让字幕从容一点。")}</h2>
             </div>
             <span className="badge">{filename}</span>
           </div>
           <div className="stats-grid">
             <div>
-              <span className="mono">TOTAL CUES</span>
+              <span className="mono">{t("TOTAL CUES", "字幕总条数")}</span>
               <strong>{parsed.cues.length.toString().padStart(2, "0")}</strong>
             </div>
             <div className={violations.length ? "warning-stat" : ""}>
-              <span className="mono">NEED ATTENTION</span>
+              <span className="mono">{t("NEED ATTENTION", "需要调整")}</span>
               <strong>
                 {violations.length.toString().padStart(2, "0")}
-                <small>cues</small>
+                <small>{t("cues", "条")}</small>
               </strong>
             </div>
             <div>
-              <span className="mono">AVERAGE CPS</span>
+              <span className="mono">
+                {t("AVERAGE CPS", "平均阅读速度（CPS）")}
+              </span>
               <strong>
                 {average.toFixed(1)}
                 <small>/{standard.cps}</small>
@@ -448,14 +483,15 @@ export function SubtitleEditor() {
                 className={!onlyViolations ? "active" : ""}
                 onClick={() => setOnlyViolations(false)}
               >
-                All Cues
+                {t("All Cues", "全部字幕")}
               </button>
               <button
                 aria-pressed={onlyViolations}
                 className={onlyViolations ? "active" : ""}
                 onClick={() => setOnlyViolations(true)}
               >
-                Violations Only <span>{violations.length}</span>
+                {t("Violations Only", "只看有问题的")}{" "}
+                <span>{violations.length}</span>
               </button>
             </div>
             <button
@@ -464,24 +500,26 @@ export function SubtitleEditor() {
               onClick={wrapAll}
             >
               <WandSparkles size={15} />
-              Auto-wrap all
+              {t("Auto-wrap all", "全部智能断行")}
             </button>
           </div>
           <div role="status" className={`notice ${notice ? "has-notice" : ""}`}>
-            {notice}
+            {editorMessage(notice, language)}
           </div>
           {parsed.errors.length > 0 && (
             <div className="parse-errors" role="alert">
               <strong>
                 <AlertTriangle size={16} />
-                Input needs a small fix
+                {t("Input needs a small fix", "输入格式需要改一下")}
               </strong>
               {parsed.errors.map((error) => (
-                <p key={error}>{error}</p>
+                <p key={error}>{parseErrorLabel(error, language)}</p>
               ))}
               <p>
-                All original input is preserved. Fix these blocks before editing
-                or exporting.
+                {t(
+                  "All original input is preserved. Fix these blocks before editing or exporting.",
+                  "原始文本都还在。请先修正这些字幕块，再继续编辑或导出。",
+                )}
               </p>
             </div>
           )}
@@ -490,21 +528,39 @@ export function SubtitleEditor() {
               <div className="empty-icon">
                 <FileText size={30} strokeWidth={1.2} />
               </div>
-              <h3>Good subtitles start with a quick check.</h3>
+              <h3>
+                {t(
+                  "Good subtitles start with a quick check.",
+                  "交字幕前，花一分钟检查一下。",
+                )}
+              </h3>
               <p>
-                Drop or paste your SRT, or take the sample for a spin.
+                {t(
+                  "Drop or paste your SRT, or take the sample for a spin.",
+                  "拖入文件、粘贴 SRT，或先加载示例试试。",
+                )}
                 <br />
-                Red zones appear here, ready for an inline fix.
+                {t(
+                  "Red zones appear here, ready for an inline fix.",
+                  "有问题的地方会标红，可以直接在这里改。",
+                )}
               </p>
               <button className="button primary" onClick={sample}>
-                Load Sample Data <ArrowRightIcon />
+                {t("Load Sample Data", "加载示例字幕")} <ArrowRightIcon />
               </button>
             </div>
           ) : visible.length === 0 && parsed.cues.length > 0 ? (
             <div className="editor-empty">
               <Check size={32} />
-              <h3>Everything is within your limits.</h3>
-              <p>No violations under this preset. Export when you’re ready.</p>
+              <h3>
+                {t("Everything is within your limits.", "都在你设定的范围内。")}
+              </h3>
+              <p>
+                {t(
+                  "No violations under this preset. Export when you’re ready.",
+                  "按当前标准检查，没有发现超标。准备好了就可以导出。",
+                )}
+              </p>
             </div>
           ) : (
             <div className="cue-list">
@@ -515,17 +571,19 @@ export function SubtitleEditor() {
                 >
                   <div className="cue-header">
                     <span className="mono">
-                      CUE {String(index + 1).padStart(3, "0")}
+                      {t("CUE", "字幕")} {String(index + 1).padStart(3, "0")}
                     </span>
                     <div>
                       {stats.issues.length ? (
                         <span className="cue-warning">
                           <AlertTriangle size={12} />
-                          {stats.issues.join(" · ")}
+                          {stats.issues
+                            .map((issue) => issueLabel(issue, language))
+                            .join(" · ")}
                         </span>
                       ) : (
                         <span className="green-text">
-                          <Check size={13} /> Within limits
+                          <Check size={13} /> {t("Within limits", "符合标准")}
                         </span>
                       )}
                     </div>
@@ -537,16 +595,22 @@ export function SubtitleEditor() {
                           text: autoWrap(cue.text, standard.cpl),
                         })
                       }
-                      title="Balance into at most two lines"
+                      title={t(
+                        "Balance into at most two lines",
+                        "均衡分为最多两行",
+                      )}
                     >
                       <WandSparkles size={13} />
-                      Auto-wrap
+                      {t("Auto-wrap", "智能断行")}
                     </button>
                   </div>
                   <div className="cue-edit-grid">
                     <div className="cue-text-block">
                       <textarea
-                        aria-label={`Cue ${index + 1} text`}
+                        aria-label={t(
+                          `Cue ${index + 1} text`,
+                          `第 ${index + 1} 条字幕文本`,
+                        )}
                         value={cue.text}
                         disabled={!!parsed.errors.length}
                         onChange={(e) =>
@@ -557,9 +621,12 @@ export function SubtitleEditor() {
                       />
                       <div className="timestamps">
                         <label>
-                          <span>IN</span>
+                          <span>{t("IN", "开始")}</span>
                           <input
-                            aria-label={`Cue ${index + 1} start timestamp`}
+                            aria-label={t(
+                              `Cue ${index + 1} start timestamp`,
+                              `第 ${index + 1} 条字幕开始时间`,
+                            )}
                             value={cue.start}
                             disabled={!!parsed.errors.length}
                             onChange={(e) =>
@@ -570,9 +637,12 @@ export function SubtitleEditor() {
                         </label>
                         <span>→</span>
                         <label>
-                          <span>OUT</span>
+                          <span>{t("OUT", "结束")}</span>
                           <input
-                            aria-label={`Cue ${index + 1} end timestamp`}
+                            aria-label={t(
+                              `Cue ${index + 1} end timestamp`,
+                              `第 ${index + 1} 条字幕结束时间`,
+                            )}
                             value={cue.end}
                             disabled={!!parsed.errors.length}
                             onChange={(e) =>
@@ -581,7 +651,10 @@ export function SubtitleEditor() {
                             spellCheck={false}
                           />
                         </label>
-                        <span>{stats.duration.toFixed(2)}s</span>
+                        <span>
+                          {stats.duration.toFixed(2)}
+                          {t("s", "秒")}
+                        </span>
                       </div>
                     </div>
                     <div className="cue-metrics">
@@ -596,7 +669,10 @@ export function SubtitleEditor() {
                         <small>CPS</small>
                       </strong>
                       <meter
-                        aria-label={`Cue ${index + 1} reading speed`}
+                        aria-label={t(
+                          `Cue ${index + 1} reading speed`,
+                          `第 ${index + 1} 条字幕阅读速度`,
+                        )}
                         min={0}
                         max={standard.cps * 2}
                         low={0}
@@ -609,8 +685,8 @@ export function SubtitleEditor() {
                           stats.maxLine > standard.cpl ? "red-text" : ""
                         }
                       >
-                        {stats.maxLine}/{standard.cpl} CPL · {stats.lines}/2
-                        lines
+                        {stats.maxLine}/{standard.cpl} {t("CPL", "字/行")} ·{" "}
+                        {stats.lines}/2 {t("lines", "行")}
                       </span>
                     </div>
                   </div>
@@ -621,7 +697,7 @@ export function SubtitleEditor() {
           <div className="export-bar">
             <span className="mono">
               <LockKeyhole size={13} />
-              LOCAL IN. LOCAL OUT.
+              {t("LOCAL IN. LOCAL OUT.", "本地导入，本地导出。")}
             </span>
             <div>
               <button
@@ -630,7 +706,7 @@ export function SubtitleEditor() {
                 onClick={() => void copy()}
               >
                 <Copy size={14} />
-                Copy SRT
+                {t("Copy SRT", "复制 SRT")}
               </button>
               <button
                 className="button primary"
@@ -638,14 +714,15 @@ export function SubtitleEditor() {
                 onClick={download}
               >
                 <Download size={15} />
-                Download SRT
+                {t("Download SRT", "下载 SRT")}
               </button>
             </div>
           </div>
           <p className="export-note">
-            Wrapping balances lines; it does not reduce CPS. Shorten text or
-            edit timing for speed warnings. Exports retain unresolved warnings;
-            invalid timing or malformed blocks must be fixed first.
+            {t(
+              "Wrapping balances lines; it does not reduce CPS. Shorten text or edit timing for speed warnings. Exports retain unresolved warnings; invalid timing or malformed blocks must be fixed first.",
+              "断行只调整排版，不会降低 CPS。阅读速度超标时，请精简文字或调整时间。导出会保留尚未解决的超标项；时间无效或格式有误时，需要先修好才能导出。",
+            )}
           </p>
         </section>
       </div>
