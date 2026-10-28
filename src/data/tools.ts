@@ -1,3 +1,12 @@
+import { batchOneTools, dayOnePosts } from "./batch-one";
+import { plannedTools } from "./planned-tools";
+import {
+  cardMetadata,
+  type SourcePostLink,
+  type SourceCardMetadata,
+} from "./source-types";
+export type { SourcePostLink, SourceCardMetadata } from "./source-types";
+
 type OptimizationCopy = {
   source: string;
   complaint: string;
@@ -21,6 +30,9 @@ export type ToolEntry = {
     | "requirementsAnalysis"
   >;
   day: number;
+  status: "built" | "planned";
+  sourcePosts: SourcePostLink[];
+  sourceCard: SourceCardMetadata;
   slug: string;
   title: string;
   tier: "daily" | "weekly";
@@ -49,7 +61,7 @@ export const tools: ToolEntry[] = [
       nicheAudience: "字幕翻译与字幕组校对人员",
       painPoint: "找出读不完、单行太长的 SRT 字幕，顺手调整文字和断行。",
       summary: "字幕太快看不清？找出问题，理顺断行，再安心交片。",
-      sourceDate: "2026 年 3 月左右（日期为估算）",
+      sourceDate: "2026 年 3 月 27 日",
       originalComplaint:
         "你们有没有什么办法，能让整个剪辑团队的字幕质量更稳定，项目多了也能应付？有什么诀窍能让第一版就少出点错？",
       originalPostFull: `字幕问题 — u/C_vansky，r/editors（原帖中文翻译）
@@ -65,7 +77,7 @@ export const tools: ToolEntry[] = [
 评论里聊到了字幕校对，包括阅读速度（CPS）和断行。有人推荐 Netflix 字幕规范，也有人会先导出到 Subtitle Edit，处理后再导回剪辑软件。原帖关心的是整体质量的一致性；这个 CPS 检查器是我们结合讨论和项目要求提炼出的切入点，并不是楼主直接提出的功能需求。楼主也说明了自己的工作不涉及翻译，我们把同类校对问题延伸到了字幕翻译和字幕组。
 
 来源说明
-2026 年 10 月 27 日查看时，Reddit 显示“7 个月前”，所以上方日期仅为估算。这是真实的公开讨论，不代表发帖人为本工具背书。英文原文可切换 EN 或点击原帖链接查看。`,
+2026 年 10 月 27 日查看时，Reddit 显示“7 个月前”；2026 年 10 月 28 日复核搜索索引时获得 2026 年 3 月 27 日的日期。这是真实的公开讨论，不代表发帖人为本工具背书。英文原文可切换 EN 或点击原帖链接查看。`,
       requirementsAnalysis: {
         who: "面向交付前检查 .srt 文件的影视字幕翻译和字幕组校对人员。原讨论中也有负责字幕质检的代理公司视频剪辑师。",
         whyExistingToolsFail:
@@ -77,6 +89,9 @@ export const tools: ToolEntry[] = [
       },
     },
     day: 1,
+    status: "built",
+    sourcePosts: dayOnePosts,
+    sourceCard: cardMetadata(dayOnePosts[0], "Subtitles", "字幕问题"),
     slug: "day-001-subtitle-cps-fixer",
     title: "Subtitle CPS Fixer",
     tier: "daily",
@@ -87,7 +102,7 @@ export const tools: ToolEntry[] = [
     sourcePlatform: "Reddit",
     sourceAuthor: "r/editors · u/C_vansky",
     sourceUrl: "https://www.reddit.com/r/editors/comments/1s5gosy/subtitles/",
-    sourceDate: "March 2026 · approximate",
+    sourceDate: "2026-03-27",
     originalComplaint:
       "With that said is there a way to keep this more consistent and scalable throughout a team of editors that you have found? Is there any tips for getting this more correct on the first try?",
     originalPostFull: `Subtitles — u/C_vansky, r/editors
@@ -103,7 +118,7 @@ THREAD CONTEXT (editorial summary)
 Commenters discuss the craft of caption QC, including CPS and line breaks, recommend Netflix's timed-text style guide, and describe exporting to Subtitle Edit before importing back into an NLE. The post is about general consistency; the specific CPS inspector is our isolated interpretation of that discussion and the project brief, rather than a verbatim feature request. The original poster clarified that their own job did not involve translation. We extend the same QC bottleneck to subtitle translators and fansub editors.
 
 SOURCE NOTE
-Reddit displayed “7mo ago” when reviewed on October 27, 2026; the date above is approximate. This is a real public thread, not an endorsement.`,
+Reddit displayed “7mo ago” when reviewed on October 27, 2026; a search-index review on October 28 exposed the March 27, 2026 posting date. This is a real public thread, not an endorsement.`,
     requirementsAnalysis: {
       who: "Broadcast & streaming subtitle translators and fansub QC editors reviewing exported .srt files before delivery. The source thread also includes agency video editors handling caption QC.",
       whyExistingToolsFail:
@@ -131,6 +146,8 @@ Reddit displayed “7mo ago” when reviewed on October 27, 2026; the date above
       },
     ],
   },
+  ...batchOneTools,
+  ...plannedTools,
 ];
 
 export type RoadmapSlot = {
@@ -147,7 +164,7 @@ export const roadmap: RoadmapSlot[] = Array.from(
     return {
       day,
       tier: day % 7 === 0 ? "weekly" : "daily",
-      status: tool ? "built" : "upcoming",
+      status: tool?.status === "built" ? "built" : "upcoming",
       tool,
     };
   },

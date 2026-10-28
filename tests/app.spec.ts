@@ -15,7 +15,10 @@ test("directory filters, roadmap, keyboard search and source dialog", async ({
   ).toBeFocused();
   await page.getByRole("textbox", { name: "Search tools" }).fill("subtitle");
   await expect(page.locator(".tool-card")).toHaveCount(1);
-  await page.getByRole("button", { name: /Inspect Original/ }).click();
+  await page
+    .getByRole("button", { name: /Inspect Original/ })
+    .first()
+    .click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "100% local-first architecture" }),
@@ -24,12 +27,14 @@ test("directory filters, roadmap, keyboard search and source dialog", async ({
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.getByRole("textbox", { name: "Search tools" }).fill("");
   await page.getByRole("checkbox", { name: "Show upcoming slots" }).uncheck();
-  await expect(page.locator(".tool-card")).toHaveCount(1);
+  await expect(page.locator(".tool-card")).toHaveCount(7);
   await page
     .getByRole("combobox", { name: "Filter by source" })
     .selectOption("X");
-  await expect(page.getByText("No tools in this corner. Yet.")).toBeVisible();
-  await page.getByRole("button", { name: "Clear filters" }).click();
+  await expect(page.locator(".tool-card")).toHaveCount(7);
+  await page
+    .getByRole("combobox", { name: "Filter by source" })
+    .selectOption("all");
   await page.getByRole("checkbox", { name: "Show upcoming slots" }).check();
   await page.getByRole("button", { name: /Explore all 100/ }).click();
   await expect(page.locator(".tool-card")).toHaveCount(100);
@@ -133,7 +138,10 @@ test("mobile directory and editor fit the viewport", async ({ page }) => {
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("link", { name: "Open Tool", exact: true }).click();
+  await page
+    .getByRole("link", { name: "Open Tool", exact: true })
+    .first()
+    .click();
   await page.getByRole("button", { name: "Load Sample Data" }).first().click();
   await expect(page.locator(".cue")).toHaveCount(8);
   expect(
@@ -247,7 +255,7 @@ test("Chinese copy follows directory → modal → tool → reload and switches 
   await expect(page.locator("html")).toHaveAttribute("lang", "zh");
   await expect(page.getByRole("heading", { name: /工具小一点/ })).toBeVisible();
   await expect(page.locator(".progress-heading")).toContainText(
-    "已完成 1 / 100 个工具",
+    "已完成 22 / 100 个工具",
   );
   await expect(page.locator(".schedule")).toContainText("每日凌晨 03:00");
   await expect(
@@ -271,7 +279,10 @@ test("Chinese copy follows directory → modal → tool → reload and switches 
   await expect(page.locator(".built-card")).toContainText(
     "字幕翻译与字幕组校对人员",
   );
-  await page.getByRole("button", { name: "查看原帖与需求分析" }).click();
+  await page
+    .getByRole("button", { name: "查看原帖与需求分析" })
+    .first()
+    .click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toContainText("原帖与需求分析");
   await expect(dialog).toContainText("原帖中文翻译");
@@ -341,7 +352,10 @@ test("Chinese copy follows directory → modal → tool → reload and switches 
   await page.reload();
   await expect(page.getByRole("heading", { name: /工具小一点/ })).toBeVisible();
   await page.getByRole("button", { name: "EN", exact: true }).click();
-  await page.getByRole("button", { name: /Inspect Original/ }).click();
+  await page
+    .getByRole("button", { name: /Inspect Original/ })
+    .first()
+    .click();
   await expect(dialog).toContainText("I work for an agency");
   await page.keyboard.press("Escape");
   await page.reload();
@@ -648,7 +662,10 @@ test("Chinese mobile directory, modal and loaded editor fit the viewport", async
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "查看原帖与需求分析" }).click();
+  await page
+    .getByRole("button", { name: "查看原帖与需求分析" })
+    .first()
+    .click();
   await expect(page.getByRole("dialog")).toBeVisible();
   expect(
     await page
@@ -706,7 +723,10 @@ test("unavailable storage keeps language switching usable", async ({
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await page.getByRole("button", { name: "中文", exact: true }).click();
   await expect(page.getByRole("heading", { name: /工具小一点/ })).toBeVisible();
-  await page.getByRole("link", { name: "打开工具", exact: true }).click();
+  await page
+    .getByRole("link", { name: "打开工具", exact: true })
+    .first()
+    .click();
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "字幕阅读速度检查器",
   );

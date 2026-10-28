@@ -11,6 +11,7 @@ import {
 import { formatDay, localizeTool, type ToolEntry } from "@/data/tools";
 import { SiteHeader, Footer } from "./Brand";
 import { useLanguage } from "./LanguageProvider";
+import { SourcePostCard } from "./SourcePostCard";
 import { OriginalPostModal } from "./OriginalPostModal";
 export function ToolShell({
   tool,
@@ -77,7 +78,10 @@ export function ToolShell({
           <div>
             <button className="button sample-button" onClick={onSample}>
               <FlaskConical size={15} />
-              {t("Load Sample Data", "加载示例字幕")}
+              {t(
+                "Load Sample Data",
+                tool.day === 1 ? "加载示例字幕" : "加载示例数据",
+              )}
             </button>
             <button className="button quiet" onClick={onReset}>
               <RotateCcw size={14} />
@@ -85,6 +89,15 @@ export function ToolShell({
             </button>
           </div>
         </div>
+        <details className="tool-source-details">
+          <summary>
+            {t(
+              `Why this tool exists · ${tool.sourcePosts.length} original posts`,
+              `为什么做这个工具 · ${tool.sourcePosts.length} 条原帖`,
+            )}
+          </summary>
+          <SourcePostCard tool={tool} variant="compact" />
+        </details>
         {children}
       </main>
       <Footer />

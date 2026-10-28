@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { tools, roadmap, formatDay, localizeTool } from "@/data/tools";
 import { SiteHeader, Footer } from "./Brand";
+import { SourcePostCard } from "./SourcePostCard";
 import { OriginalPostModal } from "./OriginalPostModal";
 import { useLanguage } from "./LanguageProvider";
 
@@ -54,6 +55,7 @@ export function Directory() {
         return (
           upcoming && source === "all" && !search.trim() && !audience.trim()
         );
+      if (slot.status === "upcoming" && !upcoming) return false;
       const copies = [slot.tool, slot.tool.zh];
       return (
         (source === "all" || source === slot.tool.sourcePlatform) &&
@@ -79,18 +81,18 @@ export function Directory() {
       ...slot,
       tool: slot.tool ? localizeTool(slot.tool, language) : undefined,
     }));
-  const preview = slots.slice(0, 5);
+  const preview = slots.slice(0, 7);
   const nextWeekly = slots.find(
     (slot) => slot.tier === "weekly" && slot.status === "upcoming",
   );
   if (
     nextWeekly &&
-    preview.length === 5 &&
+    preview.length === 7 &&
     !preview.some((slot) => slot.tier === "weekly")
   )
-    preview[4] = nextWeekly;
+    preview[6] = nextWeekly;
   const visible = expanded ? slots : preview;
-  const built = tools.length;
+  const built = tools.filter((tool) => tool.status === "built").length;
   return (
     <div className="site-wrap">
       <SiteHeader />
@@ -322,7 +324,7 @@ export function Directory() {
               slot.tool ? (
                 <article
                   key={slot.day}
-                  className="tool-card built-card"
+                  className={`tool-card ${slot.status === "built" ? "built-card" : "upcoming-card planned-card"} ${slot.tier === "weekly" ? "weekly-card" : ""}`}
                   id={`slot-${slot.day}`}
                   onClick={() => setSelected(slot.day)}
                 >
@@ -331,7 +333,12 @@ export function Directory() {
                       {t("DAY", "第")} {formatDay(slot.day)}
                       {t("", " 天")} <span className="card-divider">/</span>{" "}
                       <span className="green-text">
-                        {t("BUILT & READY", "已上线，随时可用")}
+                        {slot.status === "built"
+                          ? t("BUILT & READY", "已上线，随时可用")
+                          : t(
+                              "RESEARCHED · LATER BATCH",
+                              "已调研 · 后续批次构建",
+                            )}
                       </span>
                     </span>
                     <span className={`badge ${slot.tier}`}>
@@ -356,57 +363,25 @@ export function Directory() {
                       {slot.tool.nicheAudience}
                     </span>
                     <p className="card-summary">{slot.tool.summary}</p>
-                    <div className="subtitle-mini" aria-hidden="true">
-                      <div>
-                        <span>00:04,200 → 00:06,100</span>
-                        <span className="mini-error">24.2 CPS</span>
-                      </div>
-                      <p>
-                        {t(
-                          "Some subtitles move a little too fast.",
-                          "有些字幕，闪得太快。",
-                        )}
-                        <br />
-                        <span>
-                          {t(
-                            "Let’s give every word room to breathe.",
-                            "让每个字，都来得及看清。",
-                          )}
-                        </span>
-                      </p>
-                      <div className="mini-meter">
-                        <i />
-                      </div>
-                      <span className="mini-label">
-                        {t(
-                          "SPOT THE RED. FIND THE BALANCE.",
-                          "找出红色警告，让字幕更好读。",
-                        )}
-                      </span>
-                    </div>
-                    <div className="card-source">
-                      <span
-                        className={`badge ${slot.tool.sourcePlatform.toLowerCase()}`}
-                      >
-                        {slot.tool.sourcePlatform}
-                      </span>
-                      <span>
-                        {slot.tool.sourceAuthor}
-                        <small>
-                          {slot.tool.sourceDate} · {t("SOURCE", "来源")}
-                        </small>
-                      </span>
-                    </div>
                     <span className="eyebrow complaint-label">
                       {t(
                         "USER’S ORIGINAL COMPLAINT / WISH",
                         "用户当时的烦恼 / 愿望",
                       )}
                     </span>
-                    <blockquote>
-                      <span className="quote-mark">“</span>
-                      <span>{slot.tool.originalComplaint}</span>
-                    </blockquote>
+                    <SourcePostCard tool={slot.tool} variant="compact" />
+                    <button
+                      className="similar-posts-badge"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelected(slot.day);
+                      }}
+                    >
+                      {t(
+                        `+${slot.tool.sourcePosts.length - 1} similar posts linked`,
+                        `+${slot.tool.sourcePosts.length - 1} 条同款痛点原帖`,
+                      )}
+                    </button>
                   </div>
                   <div className="card-actions">
                     <button
@@ -422,13 +397,15 @@ export function Directory() {
                       )}{" "}
                       <Plus size={14} />
                     </button>
-                    <Link
-                      className="button primary"
-                      href={`/tools/${slot.tool.slug}`}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {t("Open Tool", "打开工具")} <ArrowRight size={16} />
-                    </Link>
+                    {slot.status === "built" && (
+                      <Link
+                        className="button primary"
+                        href={`/tools/${slot.tool.slug}`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {t("Open Tool", "打开工具")} <ArrowRight size={16} />
+                      </Link>
+                    )}
                   </div>
                 </article>
               ) : (

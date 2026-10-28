@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 import { formatDay, localizeTool, type ToolEntry } from "@/data/tools";
 
-import { useLanguage } from "./LanguageProvider";
+import { SourcePostCard } from "./SourcePostCard";
+import { LanguageToggle, useLanguage } from "./LanguageProvider";
 
 export function OriginalPostModal({
   tool: originalTool,
@@ -73,6 +74,7 @@ export function OriginalPostModal({
             {t("FIELD NOTES / DAY", "造物笔记 / 第")} {formatDay(tool.day)}
             {t("", " 天")}
           </span>
+          <LanguageToggle />
           <button
             className="icon-button"
             onClick={onClose}
@@ -89,16 +91,7 @@ export function OriginalPostModal({
         <p className="muted">
           {t("Original Post & Requirements Analysis", "原帖与需求分析")}
         </p>
-        <div className="source-byline">
-          <span className={`badge ${tool.sourcePlatform.toLowerCase()}`}>
-            {tool.sourcePlatform}
-          </span>
-          <span>{tool.sourceAuthor}</span>
-          <span>{tool.sourceDate}</span>
-        </div>
-        <blockquote className="dialog-quote">
-          “{tool.originalComplaint}”
-        </blockquote>
+        <SourcePostCard tool={originalTool} variant="full" />
         <details open className="original-context">
           <summary>
             {t("Full original post & thread context", "原帖全文与讨论背景")}
@@ -109,7 +102,7 @@ export function OriginalPostModal({
           className="text-link"
           href={tool.sourceUrl}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           {t(
             `View original ${tool.sourcePlatform} post`,
@@ -117,6 +110,23 @@ export function OriginalPostModal({
           )}{" "}
           <ArrowUpRight size={15} />
         </a>
+        <section className="matching-posts">
+          <h3>
+            {t(
+              "All Matching Original Posts (X & Reddit)",
+              "同款痛点原帖汇总（点击直达）",
+            )}
+          </h3>
+          <p className="muted">
+            {t(
+              "Primary source, corroborating discussion and clearly labeled related workflow references. Summaries are editorial; open each link for the full conversation.",
+              "这里收齐主要来源、相关讨论和已标明的工作流参考。摘要由编辑整理，完整讨论请点击原帖查看。",
+            )}
+          </p>
+          {originalTool.sourcePosts.map((post) => (
+            <SourcePostCard key={post.url} post={post} variant="compact" />
+          ))}
+        </section>
         <div className="analysis-grid">
           {analysis.map(([Icon, title, body]) => (
             <section key={title}>
@@ -143,14 +153,23 @@ export function OriginalPostModal({
             );
           })}
         </section>
-        <Link
-          href={`/tools/${tool.slug}`}
-          className="button primary dialog-launch"
-          onClick={onClose}
-        >
-          {t(`Launch ${tool.title}`, `打开${tool.title}`)}
-          <ArrowRight size={17} />
-        </Link>
+        {tool.status === "built" ? (
+          <Link
+            href={`/tools/${tool.slug}`}
+            className="button primary dialog-launch"
+            onClick={onClose}
+          >
+            {t(`Launch ${tool.title}`, `打开${tool.title}`)}
+            <ArrowRight size={17} />
+          </Link>
+        ) : (
+          <p className="wb-status">
+            {t(
+              "Implementation scheduled for a later foundation batch.",
+              "已安排在后续基础批次实现。",
+            )}
+          </p>
+        )}
       </div>
     </dialog>
   );

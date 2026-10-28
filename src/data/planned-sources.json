@@ -1,0 +1,342 @@
+{
+  "9": [
+    {
+      "title": "Figuring out kerf",
+      "url": "https://www.reddit.com/r/lasercutting/comments/1w1ul5t/figuring_out_kerf/"
+    },
+    {
+      "title": "When making plywood finger joints, do you account for kerf on both the tab and the slot?",
+      "url": "https://www.reddit.com/r/lasercutting/comments/1epw11s"
+    },
+    {
+      "title": "Kerf making me feel brainless",
+      "url": "https://www.reddit.com/r/lasercutting/comments/1fb8de0"
+    }
+  ],
+  "10": [
+    {
+      "title": "Looking for a simple initiative tracker",
+      "url": "https://www.reddit.com/r/DMAcademy/comments/1vjgebw/looking_for_a_simple_initiative_tracker/"
+    },
+    {
+      "title": "I built a free browser-based initiative tracker",
+      "url": "https://www.reddit.com/r/DMAcademy/comments/1tczvvv/i_built_a_free_browserbased_initiative_tracker/"
+    },
+    {
+      "title": "Is there a better way to track initiative?",
+      "url": "https://www.reddit.com/r/DMAcademy/comments/dmnbbm"
+    }
+  ],
+  "11": [
+    {
+      "title": "I export 300+ images daily from the same project. Currently, I have to rename each one manually to avoid overwriting (e.g., Jose.jpg, Jose_1.jpg). Doing this 300 times is exhausting. Is there a way to automate this so it auto-increments the filename (Jose_1, Jose_2, etc.)?",
+      "url": "https://www.reddit.com/r/photoshop/comments/1q4p7j7/i_export_300_images_daily_from_the_same_project/"
+    },
+    {
+      "title": "sequential file rename based on manual arrangement of photos - slide show?",
+      "url": "https://www.reddit.com/r/photography/comments/152i733"
+    },
+    {
+      "title": "What do you name your files when you export them?",
+      "url": "https://www.reddit.com/r/photography/comments/1oh6asj/what_do_you_name_your_files_when_you_export_them/"
+    }
+  ],
+  "12": [
+    {
+      "title": "Why is it so hard to import a deck with duplicate cards and keep those duplicates? Is there any add-ons that can force Anki to do this?",
+      "url": "https://www.reddit.com/r/Anki/comments/1nmbo41/why_is_it_so_hard_to_import_a_deck_with_duplicate/"
+    },
+    {
+      "title": "Is this Impossible? (Importing Duplicates)",
+      "url": "https://www.reddit.com/r/Anki/comments/15woi7j"
+    },
+    {
+      "title": ".csv files not importing?",
+      "url": "https://www.reddit.com/r/Anki/comments/14qvcgd"
+    }
+  ],
+  "13": [
+    {
+      "title": "Way of identifying top linked-to broken links?",
+      "url": "https://www.reddit.com/r/ObsidianMD/comments/1nnlt08/way_of_identifying_top_linkedto_broken_links/"
+    },
+    {
+      "title": "How to Find Dead Links",
+      "url": "https://www.reddit.com/r/ObsidianMD/comments/1kn9v5g"
+    },
+    {
+      "title": "Obsidian internal links are broken (some of them)",
+      "url": "https://www.reddit.com/r/ObsidianMD/comments/113mmay"
+    }
+  ],
+  "15": [
+    {
+      "title": "Projector sewing questions",
+      "url": "https://www.reddit.com/r/sewing/comments/1q6w8c5/projector_sewing_questions/"
+    },
+    {
+      "title": "Calibrating ultra short throw projector?",
+      "url": "https://www.reddit.com/r/sewing/comments/1fs94xo"
+    },
+    {
+      "title": "Help with pattern projection",
+      "url": "https://www.reddit.com/r/ProjectorsForSewing/comments/1wrqjun/help_with_pattern_projection/"
+    }
+  ],
+  "16": [
+    {
+      "title": "Looking for recipe software that can auto scale the ingredient quantities to match the number of servings",
+      "url": "https://www.reddit.com/r/Cooking/comments/1hk2est/looking_for_recipe_software_that_can_auto_scale/"
+    },
+    {
+      "title": "I got tired of scaling/resizing recipes by hand... so I made an app!",
+      "url": "https://www.reddit.com/r/Baking/comments/m3g5cl/i_got_tired_of_scalingresizing_recipes_by_hand_so/"
+    },
+    {
+      "title": "Recipe Scaler - I made a website that let's you scale recipe ingredients or servings up/down easily",
+      "url": "https://www.reddit.com/r/Cooking/comments/am8rl3/recipe_scaler_i_made_a_website_that_lets_you/"
+    }
+  ],
+  "17": [
+    {
+      "title": "Hydration Help",
+      "url": "https://www.reddit.com/r/Sourdough/comments/1rvvigt/hydration_help/"
+    },
+    {
+      "title": "I have a dumb question! How is hydration calculated?",
+      "url": "https://www.reddit.com/r/Sourdough/comments/1pjwrbs/i_have_a_dumb_question_how_is_hydration_calculated/"
+    }
+  ],
+  "18": [
+    {
+      "title": "CSV imports... there's got to be a better way",
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/MonarchMoney",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/MonarchMoney/comments/1mtabox/csv_imports_theres_got_to_be_a_better_way/",
+      "quote": "Editorial body summary: A user downloading Capital One CSVs finds a transaction-type credit/debit column instead of signed +/- amounts, requiring manual formula cleanup before import.",
+      "quoteZh": "编辑整理的正文摘要：用户导出 Capital One 账单 CSV 后发现没有正负号，而是用单独的 credit/debit 类型列表示方向，导入前必须手动写公式转换。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    },
+    {
+      "title": "Imported credit card transactions showing up as credits",
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/MonarchMoney",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/MonarchMoney/comments/18p9vot/imported_credit_card_transactions_showing_up_as/",
+      "quote": "Editorial body summary: Imported credit card charges appear as positive credits and payments as debits until the user flips every transaction sign in the CSV.",
+      "quoteZh": "编辑整理的正文摘要：导入信用卡 CSV 后，消费被当成正数入账、还款反而变成支出，只能在 CSV 里把所有交易正负号整体反转后再重导。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    }
+  ],
+  "19": [
+    {
+      "title": "My event email shows 1:30 PM IST, but clicking “Yes” adds it to Google Calendar at 9:00 AM Calendar timezone is India Standard Time. Please fix the invitation time-zone data for event mails sent out.",
+      "platform": "X",
+      "author": "RameshKrishnamoorthy",
+      "handleOrSubreddit": "@ramesh009144",
+      "date": "2026-09-28",
+      "url": "https://x.com/ramesh009144/status/2104495170054242471",
+      "quote": "My event email shows 1:30 PM IST, but clicking “Yes” adds it to Google Calendar at 9:00 AM Calendar timezone is India Standard Time. Please fix the invitation time-zone data for event mails sent out.",
+      "quoteZh": "邮件里写着印度时间下午 1:30，点接受却进谷歌日历变成上午 9:00，日历时区明明是印度标准时间。请修好邀请邮件里的时区数据。",
+      "metricsLabel": "1 view",
+      "context": "excerpt",
+      "verification": "reviewed"
+    },
+    {
+      "title": "they talk fine, just through a calendar invite that arrives in the wrong timezone",
+      "platform": "X",
+      "author": "Sujal",
+      "handleOrSubreddit": "@hecodesforme",
+      "date": "2026-10-05",
+      "url": "https://x.com/hecodesforme/status/2107017813667852309",
+      "quote": "they talk fine, just through a calendar invite that arrives in the wrong timezone",
+      "quoteZh": "沟通没问题，就差一封时区错了的日历邀请。",
+      "metricsLabel": "5 views",
+      "context": "excerpt",
+      "verification": "reviewed"
+    },
+    {
+      "title": "Editorial body summary: A calendar invite shows the wrong time while opening or editing, yet the saved event looks correct—classic invite vs calendar timezone mismatch.",
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/samsunggalaxy",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/samsunggalaxy/comments/1u45mpf/calendar_invite_shows_wrong_time_when_opening_or/",
+      "quote": "Editorial body summary: A calendar invite shows the wrong time while opening or editing, yet the saved event looks correct—classic invite vs calendar timezone mismatch.",
+      "quoteZh": "编辑整理的正文摘要：打开或编辑邀请时显示错误时间，保存后却又正常——典型的邀请展示与日历时区不一致。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    },
+    {
+      "title": "Editorial body summary: Microsoft 365 invites often ship TZID=Customized Time Zone, which some calendars reject or mis-read, forcing users to edit the ICS by hand.",
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/ProtonMail",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/ProtonMail/comments/u6z9k5/unsupported_invitation_timezone_issues/",
+      "quote": "Editorial body summary: Microsoft 365 invites often ship TZID=Customized Time Zone, which some calendars reject or mis-read, forcing users to edit the ICS by hand.",
+      "quoteZh": "编辑整理的正文摘要：微软 365 发出的邀请常带 TZID=Customized Time Zone，部分日历无法识别或读错，只能手动改 ICS。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    }
+  ],
+  "20": [
+    {
+      "platform": "X",
+      "author": "Himanshu Rathore",
+      "handleOrSubreddit": "@himanshu19890",
+      "date": "2026-10-24",
+      "url": "https://x.com/himanshu19890/status/2113929704294289441",
+      "quote": "Pasting Excel into ChatGPT = scrambled columns. As a Markdown table = the model reads it. Testing a tiny tool for this. 100% in-browser, no upload, not built yet. Worth $29 early-bird ($39 later)? How do you feed spreadsheets to LLMs today?",
+      "quoteZh": "把 Excel 直接贴进 ChatGPT，列会乱掉；改成 Markdown 表格，模型才读得懂。我在试做一个纯浏览器、不上传的小工具。早期鸟 $29（之后 $39）值不值？你现在怎么把表格喂给大模型？",
+      "metricsLabel": "2 replies · 41 views",
+      "context": "excerpt",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "X",
+      "author": "Himanshu Rathore",
+      "handleOrSubreddit": "@himanshu19890",
+      "date": "2026-10-27",
+      "url": "https://x.com/himanshu19890/status/2115117421878976544",
+      "quote": "Excel to Markdown edge cases a reader sent me: - 00123 and 123 must stay distinct - a cell with A|B must not split into two columns - **bold** in a cell stays literal unless you ask Building these into the preview first. What breaks when you paste sheets into ChatGPT?",
+      "quoteZh": "读者反馈的 Excel 转 Markdown 边界：00123 和 123 要区分；单元格里的 A|B 不能拆成两列；加粗标记默认当字面量。我会先做到预览里。你往 ChatGPT 贴表格时还会踩什么坑？",
+      "metricsLabel": "1 reply · 11 views",
+      "context": "excerpt",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/ObsidianMD",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/ObsidianMD/comments/1p9kjct/is_there_no_plugin_that_allows_you_to_copy_and/",
+      "quote": "Editorial body summary: Copying Obsidian Markdown tables into other apps often pastes broken or flattened text; people resort to Reading View tricks or external converters and still lose structure.",
+      "quoteZh": "编辑整理的正文摘要：从 Obsidian 复制 Markdown 表格到其他软件时，经常粘成乱码或扁平成一行，只好用阅读视图技巧或外部转换器，结构仍容易丢。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/ObsidianMD",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/ObsidianMD/comments/1ijxd4u/converting_markdown_tables_back_to_google_sheets/",
+      "quote": "Editorial body summary: After converting Sheets→Markdown with a plugin, pasting the Markdown table back into Google Sheets fails to restore columns unless you copy from Reading View or re-export via CSV.",
+      "quoteZh": "编辑整理的正文摘要：用插件把 Sheets 转成 Markdown 后，再贴回 Google Sheets 往往无法还原列结构，除非从阅读视图复制，或先导出 CSV。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    }
+  ],
+  "21": [
+    {
+      "platform": "X",
+      "author": "Jan Koenig",
+      "handleOrSubreddit": "@itsjankoenig",
+      "date": "2026-10-23",
+      "url": "https://x.com/itsjankoenig/status/2113543493888958885",
+      "quote": "Turning my hours into an invoice at the end of the month. I log everything in Notion and then copy it over by hand, which is exactly where mistakes creep in",
+      "quoteZh": "月底要把工时变成发票。我全记在 Notion 里，再手工抄过去，差错就是这么来的。",
+      "metricsLabel": "1 reply · 1 like · 14 views",
+      "context": "excerpt",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "X",
+      "author": "Phillip Zannini",
+      "handleOrSubreddit": "@phillymac",
+      "date": "2026-10-17",
+      "url": "https://x.com/phillymac/status/2111559048319717680",
+      "quote": "Toggl tracks time well. But tracked time that never reaches an invoice is just a detailed record of hours you worked for free. The gap between your timer and your invoice is where the money disappears.",
+      "quoteZh": "Toggl 记时没问题。但记了却开不到发票上的时间，只是你免费干活的明细。计时器和发票之间的缝，就是钱溜走的地方。",
+      "metricsLabel": "18 views",
+      "context": "excerpt",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/Freelancers",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/Freelancers/comments/1f8q63j/how_do_you_handle_invoicing_for_hourly_projects/",
+      "quote": "Editorial body summary: A consulting lead using Clockify still spends hours exporting entries to Excel, cleaning vague descriptions, and hand-building presentable hourly invoices.",
+      "quoteZh": "编辑整理的正文摘要：用 Clockify 的咨询负责人仍要花数小时导出条目到 Excel、清理含糊描述，再手工拼出像样的小时制发票。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/googlesheets",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/googlesheets/comments/1ihxpyi/invoicing_sheet_is_spitting_out_incorrect_fee/",
+      "quote": "Editorial body summary: An invoicing sheet showed 1.17 hours × $20 = $23.33 because Sheets displayed rounded hours while the underlying duration stayed 1.1666…—classic display vs billing-math mismatch.",
+      "quoteZh": "编辑整理的正文摘要：发票表显示 1.17 小时 × 20 元 = 23.33，因为表格只是把时长显示成两位小数，底层仍是 1.1666…——典型的显示与计费数学不一致。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    }
+  ],
+  "22": [
+    {
+      "platform": "X",
+      "author": "Hung",
+      "handleOrSubreddit": "@hyoungne2124",
+      "date": "2026-10-12",
+      "url": "https://x.com/hyoungne2124/status/2109648669104308714",
+      "quote": "BibTeX last pass: duplicate keys, missing DOIs, and {braces} around acronyms in titles so \"LSTM\" never becomes \"Lstm\".",
+      "quoteZh": "BibTeX 最后一轮检查：重复引用键、缺失的 DOI，以及给标题里的缩写加上 {花括号}，免得“LSTM”变成“Lstm”。",
+      "metricsLabel": "2 views",
+      "context": "excerpt",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "X",
+      "author": "PRUTHVI GEEDH",
+      "handleOrSubreddit": "@pruthvigeedh_",
+      "date": "2026-09-30",
+      "url": "https://x.com/pruthvigeedh_/status/2105350752667378142",
+      "quote": "So true, but the actual orchestrating and organizing side still sucks. Between juggling citations, syncing bib files, organizing assets, and fighting Overleaf, the entire drafting pipeline hasn’t fundamentally changed in a decade.",
+      "quoteZh": "太真实了，组织协调这一块依然难受。在管理引用、同步 bib 文件、整理素材和跟 Overleaf 搏斗之间，整套写作流程十年都没怎么变。",
+      "metricsLabel": "1 reply · 195 views",
+      "context": "excerpt",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "Reddit",
+      "author": "Reddit contributor",
+      "handleOrSubreddit": "r/LaTeX",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/LaTeX/comments/lz6tpl/how_to_findmanage_duplicate_bibliographic_entries/",
+      "quote": "Editorial body summary: Co-authors editing a shared Overleaf bibliography add the same paper under different BibTeX keys, producing duplicate entries in the final References section.",
+      "quoteZh": "编辑整理的正文摘要：合著者在共享 Overleaf 文献库里用不同引用键录入同一篇论文，导致最终参考文献列表出现重复条目。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    },
+    {
+      "platform": "Reddit",
+      "author": "u/mono_ruru",
+      "handleOrSubreddit": "r/zotero",
+      "date": "Exact date unavailable · see original",
+      "url": "https://www.reddit.com/r/zotero/comments/10angho/is_there_any_way_to_bulk_merge_all_duplicates/",
+      "quote": "Editorial body summary: A research group’s shared library accumulated thousands of duplicate references, and merging them one by one before exporting to .bib was prohibitively slow.",
+      "quoteZh": "编辑整理的正文摘要：研究团队的共享文献库攒出了成千上万条重复文献，导出 .bib 前逐条手动合并慢得难以承受。",
+      "metricsLabel": "Counts unavailable · see original",
+      "context": "summary",
+      "verification": "reviewed"
+    }
+  ]
+}
